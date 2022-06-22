@@ -17,14 +17,8 @@ public class UserController {
     private UserService service;
 
     @GetMapping
-    public ResponseEntity<UserDto> getAuthdUser() {
+    public ResponseEntity<UserDto> getAuthUser() {
         UserDto dto = service.getCurrentUser();
-        return ResponseEntity.ok().body(dto);
-    }
-
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<UserDto> findById(@PathVariable Long id) {
-        UserDto dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     }
 

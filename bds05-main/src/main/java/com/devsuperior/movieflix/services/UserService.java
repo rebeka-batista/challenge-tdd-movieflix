@@ -27,14 +27,6 @@ public class UserService implements UserDetailsService {
     @Autowired
     private AuthService authService;
 
-    @Transactional(readOnly = true)
-    public UserDto findById(Long id) {
-        authService.validateSelfOrAdmin(id);
-        Optional<User> obj = repository.findById(id);
-        User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
-        return new UserDto(entity);
-    }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = repository.findByEmail(username);
@@ -49,8 +41,7 @@ public class UserService implements UserDetailsService {
     @PreAuthorize("hasAnyRole('VISITOR', 'MEMBER')")
     @Transactional(readOnly = true)
     public UserDto getCurrentUser() {
-        User user = authService.authenticated();
-        return new UserDto(user);
+        return new UserDto(authService.authenticated());
     }
 
 }
